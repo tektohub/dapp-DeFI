@@ -1,5 +1,7 @@
-var MasterChef = artifacts.require("MasterChef");
+var Masterchef = artifacts.require("./MasterChef/MasterChef.sol");
+var MCTOToken = artifacts.require("./MasterChef/MCTO.sol");
 
-module.exports = function (deployer) {
-  //deployer.deploy(MasterChef);
+module.exports = function(deployer) {
+  deployer.deploy(MCTOToken).then( (instance) => deployer.deploy(Masterchef,
+    instance.address, 0, 10, 0, 1000));
 };
