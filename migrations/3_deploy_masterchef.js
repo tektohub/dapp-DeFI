@@ -1,5 +1,5 @@
-var MasterchefV2 = artifacts.require("./MasterChef/MasterChefV2.sol");
+var MasterChef = artifacts.require("MasterChef");
 
-module.exports = function(deployer) {
-  deployer.deploy(MasterchefV2);
+module.exports = function (deployer) {
+  //deployer.deploy(MasterChef);
 };
