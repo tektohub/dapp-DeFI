@@ -19,8 +19,9 @@ const {
 
 contract("MamieCryptoSwap", (accounts) => {
   const owner = accounts[0];
-  const lpProvider = accounts[0];
+  const lpProvider = accounts[1];
   const oneMillion = new BN(1000000);
+  const oneHundred = new BN(100000);
 
   let cfUSDC, cfUSDT, cfDAI, cWETH;
   let cFactoryV2, cRouter02;
@@ -60,15 +61,38 @@ contract("MamieCryptoSwap", (accounts) => {
       expect(await cfDAI.balanceOf(owner)).to.be.bignumber.equal(oneMillion);
     });
 
+    it("send weth and assets to lpProvider", async () => {
+      await cWETH.deposit({ from: lpProvider, value: new BN(80) });
+      expect(await cWETH.balanceOf(lpProvider)).to.be.bignumber.equal(
+        new BN(80)
+      );
+
+      await cfUSDC.transfer(lpProvider, oneHundred);
+      expect(await cfUSDC.balanceOf(lpProvider)).to.be.bignumber.equal(
+        oneHundred
+      );
+
+      await cfUSDT.transfer(lpProvider, oneHundred);
+      expect(await cfUSDT.balanceOf(lpProvider)).to.be.bignumber.equal(
+        oneHundred
+      );
+
+      await cfDAI.transfer(lpProvider, oneHundred);
+      expect(await cfDAI.balanceOf(lpProvider)).to.be.bignumber.equal(
+        oneHundred
+      );
+    });
+
     it("mint LP tokens", async () => {
       const [amountToken, amountETH, liquidity] =
-        await cRouter02.addLiquidityETH.sendTransaction(
+        await cRouter02.addLiquidityETH(
           cfUSDC.address, //token addr
           new BN(1000), // amountTokenDesired
           new BN(1000), // amountTokenMin
           new BN(10), // amountETHMin
-          lpProvider.address, // to
-          constants.MAX_UINT256 // deadline
+          lpProvider, // to
+          constants.MAX_UINT256, // deadline
+          { from: lpProvider, value: new BN(10) }
         );
 
       console.log(await usdcPairAddress.balanceOf(lpProvider.address));
