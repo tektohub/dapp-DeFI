@@ -19,12 +19,12 @@ contract("MamieCryptoSwap", (accounts) => {
   let cfUSDC, cfUSDT, cfDAI;
 
   before(async () => {
-    cfUSDC = await fUSDC.new({ from: owner, initialSupply: oneMillion });
+    cfUSDC = await fUSDC.new(oneMillion, { from: owner });
   });
 
   describe("Test1", async () => {
     it("Check erc20 supply", async () => {
-      expect(cfUSDC.balanceOf(owner)).to.be.big.number.equal(oneMillion);
+      expect(await cfUSDC.balanceOf(owner)).to.be.bignumber.equal(oneMillion);
     });
   });
 });
