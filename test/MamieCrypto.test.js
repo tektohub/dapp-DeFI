@@ -42,8 +42,8 @@ contract("MamieCryptoSwap", (accounts) => {
 
     // create pairs XXX/WETH
     // USDC
-    await cFactoryV2.createPair(cfUSDC.address, cWETH.address);
-    usdcPairAddress = await cFactoryV2.getPair(cfUSDC.address, cWETH.address);
+    // await cFactoryV2.createPair(cfUSDC.address, cWETH.address);
+    // usdcPairAddress = await cFactoryV2.getPair(cfUSDC.address, cWETH.address);
     // USDT
     await cFactoryV2.createPair(cfUSDT.address, cWETH.address);
     usdtPairAddress = await cFactoryV2.getPair(cfUSDT.address, cWETH.address);
