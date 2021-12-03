@@ -87,12 +87,12 @@ contract("MamieCryptoSwap", (accounts) => {
       const [amountToken, amountETH, liquidity] =
         await cRouter02.addLiquidityETH(
           cfUSDC.address, //token addr
-          new BN(1000), // amountTokenDesired
-          new BN(1000), // amountTokenMin
-          new BN(10), // amountETHMin
+          new BN(200), // amountTokenDesired
+          new BN(198), // amountTokenMin
+          new BN(0.99), // amountETHMin
           lpProvider, // to
           constants.MAX_UINT256, // deadline
-          { from: lpProvider, value: new BN(10) }
+          { from: lpProvider, value: new BN(1) }
         );
 
       console.log(await usdcPairAddress.balanceOf(lpProvider.address));
