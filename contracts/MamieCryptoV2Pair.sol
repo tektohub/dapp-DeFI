@@ -5,7 +5,7 @@ import "./interfaces/IMamieCryptoV2Pair.sol";
 import "./MamieCryptoV2ERC20.sol";
 import "./libraries/Math.sol";
 import "./libraries/UQ112x112.sol";
-import "./interfaces/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IMamieCryptoV2Factory.sol";
 import "./interfaces/IMamieCryptoV2Callee.sol";
 

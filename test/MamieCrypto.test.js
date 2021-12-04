@@ -42,8 +42,8 @@ contract("MamieCryptoSwap", (accounts) => {
 
     // create pairs XXX/WETH
     // USDC
-    // await cFactoryV2.createPair(cfUSDC.address, cWETH.address);
-    // usdcPairAddress = await cFactoryV2.getPair(cfUSDC.address, cWETH.address);
+    await cFactoryV2.createPair(cfUSDC.address, cWETH.address);
+    usdcPairAddress = await cFactoryV2.getPair(cfUSDC.address, cWETH.address);
     // USDT
     await cFactoryV2.createPair(cfUSDT.address, cWETH.address);
     usdtPairAddress = await cFactoryV2.getPair(cfUSDT.address, cWETH.address);
@@ -52,6 +52,8 @@ contract("MamieCryptoSwap", (accounts) => {
     daiPairAddress = await cFactoryV2.getPair(cfDAI.address, cWETH.address);
     // const usdcPair = await IMamieCryptoV2Pair.at(pairAddress1);
     // console.log(await usdcPair.token0.call());
+
+    console.log(`USDC pair:${usdcPairAddress}`);
   });
 
   describe("Test1", async () => {
@@ -84,18 +86,35 @@ contract("MamieCryptoSwap", (accounts) => {
     });
 
     it("mint LP tokens", async () => {
-      const [amountToken, amountETH, liquidity] =
-        await cRouter02.addLiquidityETH(
-          cfUSDC.address, //token addr
-          new BN(200), // amountTokenDesired
-          new BN(198), // amountTokenMin
-          new BN(0.99), // amountETHMin
-          lpProvider, // to
-          constants.MAX_UINT256, // deadline
-          { from: lpProvider, value: new BN(1) }
-        );
+      // approve
+      await cfUSDC.approve(cRouter02.address, new BN(200), {
+        from: lpProvider,
+      });
+      // await cfUSDT.approve(cRouter02.address, new BN(200), {
+      //   from: lpProvider,
+      // });
+      // await cfDAI.approve(cRouter02.address, new BN(200), {
+      //   from: lpProvider,
+      // });
+      await cWETH.approve(cRouter02.address, new BN(1), {
+        from: lpProvider,
+      });
 
-      console.log(await usdcPairAddress.balanceOf(lpProvider.address));
+      const [amountToken, amountETH, liquidity] = await cRouter02.addLiquidity(
+        cfUSDC.address, //tokenA
+        cWETH.address, // tokenB
+        new BN(200), // amountADesired
+        new BN(1), // amountBDesired
+        0, // amountTokenMin
+        0, // amountETHMin
+        lpProvider, // to
+        constants.MAX_UINT256, // deadline
+        { from: lpProvider }
+      );
+
+      console.log(
+        `AmountToken:${amountToken} - AmountETH:${amountETH} - liquidity:${liquidity}`
+      );
     });
   });
 });

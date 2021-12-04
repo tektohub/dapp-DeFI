@@ -32,7 +32,7 @@ library UniswapV2Library {
                             hex"ff",
                             factory,
                             keccak256(abi.encodePacked(token0, token1)),
-                            hex"d288fb1239cdf99e347e09d6552efd85409460adf1df8b48155f4e48d53fd7e8" // init code hash
+                            hex"10cd5480659575f4c2d8503dcd5060d5850380caad05d95cf3696c0d257c1872" // init code hash
                         )
                     )
                 )
@@ -47,9 +47,9 @@ library UniswapV2Library {
         address tokenB
     ) internal view returns (uint256 reserveA, uint256 reserveB) {
         (address token0, ) = sortTokens(tokenA, tokenB);
-        (uint256 reserve0, uint256 reserve1, ) = IMamieCryptoV2Pair(
-            pairFor(factory, tokenA, tokenB)
-        ).getReserves();
+        address d = pairFor(factory, tokenA, tokenB);
+        IMamieCryptoV2Pair pair = IMamieCryptoV2Pair(d);
+        (uint256 reserve0, uint256 reserve1, ) = pair.getReserves();
         (reserveA, reserveB) = tokenA == token0
             ? (reserve0, reserve1)
             : (reserve1, reserve0);

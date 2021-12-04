@@ -7,7 +7,7 @@ import "./libraries/UniswapV2Library.sol";
 import "./interfaces/IMamieCryptoV2Factory.sol";
 import "./interfaces/IUniswapV2Router02.sol";
 import "./interfaces/IMamieCryptoV2ERC20.sol";
-import "./interfaces/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./interfaces/IWETH.sol";
 
 contract MamieCryptoV2Router02 is IUniswapV2Router02 {
