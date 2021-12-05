@@ -21,8 +21,8 @@ const {
 contract("MamieCryptoSwap", (accounts) => {
   const owner = accounts[0];
   const lpProvider = accounts[1];
-  const oneMillion = new BN(1000000);
-  const oneHundred = new BN(100000);
+  const oneMillion = new BN(web3.utils.toWei("1000000", "ether"));
+  const oneHundred = new BN(web3.utils.toWei("100", "ether"));
 
   let cfUSDC, cfUSDT, cfDAI, cWETH;
   let cFactoryV2, cRouter02;
@@ -69,10 +69,10 @@ contract("MamieCryptoSwap", (accounts) => {
     });
 
     it("send weth and assets to lpProvider", async () => {
-      await cWETH.deposit({ from: lpProvider, value: new BN(80) });
-      expect(await cWETH.balanceOf(lpProvider)).to.be.bignumber.equal(
-        new BN(80)
-      );
+      // await cWETH.deposit({ from: lpProvider, value: new BN(80) });
+      // expect(await cWETH.balanceOf(lpProvider)).to.be.bignumber.equal(
+      //   new BN(80)
+      // );
 
       await cfUSDC.transfer(lpProvider, oneHundred);
       expect(await cfUSDC.balanceOf(lpProvider)).to.be.bignumber.equal(
@@ -92,7 +92,7 @@ contract("MamieCryptoSwap", (accounts) => {
 
     it("mint LP tokens", async () => {
       // approve
-      await cfUSDC.approve(cRouter02.address, new BN(200), {
+      await cfUSDC.approve(cRouter02.address, new BN(oneMillion), {
         from: lpProvider,
       });
       // await cfUSDT.approve(cRouter02.address, new BN(200), {
@@ -101,27 +101,23 @@ contract("MamieCryptoSwap", (accounts) => {
       // await cfDAI.approve(cRouter02.address, new BN(200), {
       //   from: lpProvider,
       // });
-      await cWETH.approve(cRouter02.address, new BN(1), {
+      await cWETH.approve(cRouter02.address, new BN(oneMillion), {
         from: lpProvider,
       });
 
-      const [amountToken, amountETH, liquidity] = await debug(
-        cRouter02.addLiquidity(
+      await cRouter02.addLiquidityETH(
           cfUSDC.address, //tokenA
-          cWETH.address, // tokenB
-          new BN(200), // amountADesired
-          new BN(1), // amountBDesired
+          // cWETH.address, // tokenB
+          new BN(200000), // amountADesired
+          // new BN(1), // amountBDesired
           0, // amountTokenMin
           0, // amountETHMin
           lpProvider, // to
           constants.MAX_UINT256, // deadline
-          { from: lpProvider }
+          { from: lpProvider, value: 1000}
         )
-      );
+      // );
 
-      console.log(
-        `AmountToken:${amountToken} - AmountETH:${amountETH} - liquidity:${liquidity}`
-      );
     });
   });
 });
