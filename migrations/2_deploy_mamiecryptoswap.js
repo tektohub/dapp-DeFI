@@ -1,4 +1,4 @@
-const {BN} = require("@openzeppelin/test-helpers");
+const {BN, constants} = require("@openzeppelin/test-helpers");
 
 const MamieCryptoV2Factory = artifacts.require("MamieCryptoV2Factory");
 // const MamieCryptoV2Pair = artifacts.require("MamieCryptoV2Pair");
@@ -6,14 +6,14 @@ const MamieCryptoV2Router02 = artifacts.require("MamieCryptoV2Router02");
 const fUSDC = artifacts.require("fUSDC");
 const fUSDT = artifacts.require("fUSDT");
 const fDAI = artifacts.require("fDAI");
-const WETH = artifacts.require("WETH");
+const WETH = artifacts.require("WETH9");
 
-const oneMilliard = new BN(1000000000)
+const oneMillion = new BN(web3.utils.toWei("1000000", "ether"))
 
 module.exports = async function(deployer, network, addresses) {
-    await deployer.deploy(fUSDC, oneMilliard);
-    await deployer.deploy(fUSDT, oneMilliard);
-    await deployer.deploy(fDAI, oneMilliard);
+    await deployer.deploy(fUSDC, oneMillion);
+    await deployer.deploy(fUSDT, oneMillion);
+    await deployer.deploy(fDAI, oneMillion);
     await deployer.deploy(WETH);
 
     const fUSDCContract = await fUSDC.deployed()
@@ -38,5 +38,20 @@ module.exports = async function(deployer, network, addresses) {
     await factoryContract.createPair(fDAIContract.address, WETHCContract.address);
     daiPairAddress = await factoryContract.getPair(fDAIContract.address, WETHCContract.address);
     console.log(`DAI pair:${daiPairAddress}`);
+
+
+    await fUSDCContract.approve(routerContract.address, oneMillion, {
+        from: addresses[0],
+      });
+
+
+    await routerContract.addLiquidityETH(
+        fUSDCContract.address, 
+        new BN(100000),
+        0,
+        0,
+        addresses[0],
+        constants.MAX_UINT256, {value: new BN(100000)}
+    )
 
 };  
