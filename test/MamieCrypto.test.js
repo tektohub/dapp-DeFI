@@ -6,7 +6,8 @@ const WETH9 = artifacts.require("WETH9");
 
 // MamieCryptoSwap
 const MamieCryptoV2Factory = artifacts.require("MamieCryptoV2Factory");
-const IMamieCryptoV2Pair = artifacts.require("IMamieCryptoV2Pair");
+//const IMamieCryptoV2Pair = artifacts.require("IMamieCryptoV2Pair");
+const MamieCryptoV2Pair = artifacts.require("MamieCryptoV2Pair");
 const MamieCryptoV2Router02 = artifacts.require("MamieCryptoV2Router02");
 
 const { expect } = require("chai");
@@ -28,6 +29,10 @@ contract("MamieCryptoSwap", (accounts) => {
   let usdcPairAddress, usdtPairAddress, daiPairAddress;
 
   before(async () => {
+    // console.log(MamieCryptoV2Pair.bytecode);
+    // const hash = await web3.utils.keccak256(MamieCryptoV2Pair.bytecode);
+    // console.log(hash);
+
     cfUSDC = await fUSDC.new(oneMillion, { from: owner });
     cfUSDT = await fUSDT.new(oneMillion, { from: owner });
     cfDAI = await fDAI.new(oneMillion, { from: owner });
@@ -100,16 +105,18 @@ contract("MamieCryptoSwap", (accounts) => {
         from: lpProvider,
       });
 
-      const [amountToken, amountETH, liquidity] = await cRouter02.addLiquidity(
-        cfUSDC.address, //tokenA
-        cWETH.address, // tokenB
-        new BN(200), // amountADesired
-        new BN(1), // amountBDesired
-        0, // amountTokenMin
-        0, // amountETHMin
-        lpProvider, // to
-        constants.MAX_UINT256, // deadline
-        { from: lpProvider }
+      const [amountToken, amountETH, liquidity] = await debug(
+        cRouter02.addLiquidity(
+          cfUSDC.address, //tokenA
+          cWETH.address, // tokenB
+          new BN(200), // amountADesired
+          new BN(1), // amountBDesired
+          0, // amountTokenMin
+          0, // amountETHMin
+          lpProvider, // to
+          constants.MAX_UINT256, // deadline
+          { from: lpProvider }
+        )
       );
 
       console.log(
