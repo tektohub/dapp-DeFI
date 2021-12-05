@@ -25,28 +25,38 @@ const script = async () => {
   const deployedNetwork = MasterChefContract.networks[networkId];
   const accounts = await web3.eth.getAccounts();
 
-  const masterChef = web3.eth.Contract(
+  const masterChef = new web3.eth.Contract(
     MasterChefContract.abi,
     deployedNetwork && deployedNetwork.address
   );
 
-  const MCTO = web3.eth.Contract(
+  const MCTO = new web3.eth.Contract(
     MCTOContract.abi,
     deployedNetwork && deployedNetwork.address
   );
 
-  masterChef.methods
+  await masterChef.methods
     .add(3000, LP_fUSDC_WETH_address, true)
     .send({ from: accounts[0] });
-  masterChef.methods
+  await masterChef.methods
     .add(2000, LP_fUSDT_WETH_address, true)
     .send({ from: accounts[0] });
-  masterChef.methods
+  await masterChef.methods
     .add(5000, LP_fDAI_WETH_address, true)
     .send({ from: accounts[0] });
+  
+  const poolLenth = await masterChef.methods.poolLength().call()
+  console.log(poolLenth)
+  
+  const pool0 = await masterChef.methods.poolInfo(0).call()
+  const pool1 = await masterChef.methods.poolInfo(1).call()
+  const pool2 = await masterChef.methods.poolInfo(2).call()
+
+  console.log(`pool0: ${pool0.lpToken} with allocation: ${pool0.allocPoint}`)
+  console.log(`pool1: ${pool1.lpToken} with allocation: ${pool1.allocPoint}`)
+  console.log(`pool2: ${pool2.lpToken} with allocation: ${pool0.allocPoint}`)
 };
 
 module.exports = () => {
-
   script()
 }
