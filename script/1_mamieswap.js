@@ -9,6 +9,7 @@ const fDAI = artifacts.require("fDAI");
 const WETH9 = artifacts.require("WETH9");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
+const fs = require('fs');
 
 const oneMillion = new BN(web3.utils.toWei("1000000", "ether"))
 
@@ -93,6 +94,23 @@ const script = async () => {
     MamieCryptoV2Pair.abi,
     daiPairAddress
   );
+
+  //Save pairs to JSON file
+  const jsonData = {
+    "LP_fUSDC_WETH_address": usdcPairAddress,
+    "LP_fUSDT_WETH_address": usdtPairAddress,
+    "LP_fDAI_WETH_address": daiPairAddress, 
+  }
+
+  fs.writeFile("pairsAddresses.json", JSON.stringify(jsonData), 'utf8', function (err) {
+    if (err) {
+        console.log("An error occured while writing JSON Object to File.");
+        return console.log(err);
+    }
+ 
+    console.log("JSON file has been saved.");
+  });
+
 
   //approvals
   await fUSDCContract.methods

@@ -6,9 +6,21 @@ const MCTOContract = require('../build/contracts/MCTO.json')
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 
-LP_fUSDC_WETH_address = "0xa83E7bA00C98BcF23Bf1DcE94559825f5B6DB76A";
-LP_fUSDT_WETH_address = "0x8118f142Dff3a95dde31dBbbf25803a1dec960c2";
-LP_fDAI_WETH_address = "0x90B7525dB4f3174fC3AC98369a66D800E8aD616B";
+let LP_fUSDC_WETH_address;
+let LP_fUSDT_WETH_address;
+let LP_fDAI_WETH_address;
+
+var fs = require('fs');
+fs.readFile('pairsAddresses.json',
+  function(err, data) {       
+    const jsonData = data;
+    const jsonParsed = JSON.parse(jsonData);
+    LP_fUSDC_WETH_address = jsonParsed.LP_fUSDC_WETH_address;
+    LP_fUSDT_WETH_address = jsonParsed.LP_fUSDT_WETH_address;
+    LP_fDAI_WETH_address = jsonParsed.LP_fDAI_WETH_address;
+    console.log(LP_fDAI_WETH_address)
+});
+
 
 const getWeb3 = () => {
   return new Web3(new HDWalletProvider(
