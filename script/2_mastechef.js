@@ -32,7 +32,7 @@ const script = async () => {
 
   const MCTO = new web3.eth.Contract(
     MCTOContract.abi,
-    deployedNetwork && deployedNetwork.address
+    MCTOContract.networks[networkId].address
   );
 
   await masterChef.methods
