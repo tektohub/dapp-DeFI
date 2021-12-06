@@ -4,7 +4,11 @@ pragma solidity 0.8.10;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MCTO is ERC20("Mamie Crypto", "MCTO"), Ownable {
+contract MCTO is ERC20, Ownable {
+
+    constructor(uint256 initialSupply) ERC20("Mamie Crypto", "MCTO") {
+        _mint(msg.sender, initialSupply);
+    }
 
     mapping(address => bool) public admin;
 
