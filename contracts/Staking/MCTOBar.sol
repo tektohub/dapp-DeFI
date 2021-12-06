@@ -4,16 +4,22 @@ pragma solidity 0.8.10;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "../MasterChef/MCTO.sol";
 
 // SushiBar is the coolest bar in town. You come in with some Sushi, and leave with more! The longer you stay, the more Sushi you get.
 //
 // This contract handles swapping to and from xSushi, SushiSwap's staking token.
 contract MCTOBar is ERC20("MCTOBar", "stkMCTO"){
-    IERC20 public sushi;
+    MCTO public sushi;
+    uint public lastBlockRewarded;
+    uint public MCTOPerBlock = 1000000000000000;
+    uint public lastBlockTimestamp;
 
     // Define the Sushi token contract
-    constructor(IERC20 _sushi) {
+    constructor(MCTO _sushi) {
         sushi = _sushi;
+        lastBlockRewarded = block.number;
+        lastBlockTimestamp = block.timestamp;
     }
 
     // Enter the bar. Pay some SUSHIs. Earn some shares.
@@ -45,5 +51,14 @@ contract MCTOBar is ERC20("MCTOBar", "stkMCTO"){
         uint256 what = _share * sushi.balanceOf(address(this)) / totalShares;
         _burn(msg.sender, _share);
         sushi.transfer(msg.sender, what);
+    }
+
+    function mintReward() public {
+        require(block.number > lastBlockRewarded, 'block number lock');
+        require(block.timestamp > (lastBlockTimestamp + 5 seconds), 'timestamp lock');
+        uint totalBlockToMint = block.number - lastBlockRewarded;
+        lastBlockTimestamp = block.timestamp;
+        lastBlockRewarded = block.number;
+        sushi.mint(address(this), totalBlockToMint * MCTOPerBlock);
     }
 }
