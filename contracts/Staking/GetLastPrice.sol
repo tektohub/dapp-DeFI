@@ -6,6 +6,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract GetLastPrice {
     /**
      * Returns the latest price
+     * calcul externe au SC plus fiable - 
      */
     function getLatestPrice(address priceFeedAddress) public view returns (int) {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(priceFeedAddress);
