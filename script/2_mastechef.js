@@ -1,6 +1,7 @@
 const Web3 = require('web3');
 const MasterChefContract = require('../build/contracts/MasterChef.json')
 const MCTOContract = require('../build/contracts/MCTO.json')
+const MamieCryptoPairContract = require ('../build/contracts/MamieCryptoV2Pair.json')
 // import MasterChefContract from "../build/contracts/MasterChef.json";
 // import MCTOContract from "../build/contracts/MCTO.json";
 const HDWalletProvider = require("@truffle/hdwallet-provider");
@@ -66,7 +67,38 @@ const script = async () => {
 
   console.log(`pool0: ${pool0.lpToken} with allocation: ${pool0.allocPoint}`)
   console.log(`pool1: ${pool1.lpToken} with allocation: ${pool1.allocPoint}`)
-  console.log(`pool2: ${pool2.lpToken} with allocation: ${pool0.allocPoint}`)
+  console.log(`pool2: ${pool2.lpToken} with allocation: ${pool2.allocPoint}`)
+
+  // test Pool Masterchef
+  const usdcEthLP = new web3.eth.Contract(
+    MamieCryptoPairContract.abi,
+    LP_fUSDC_WETH_address
+  )
+
+  await usdcEthLP.methods
+    .approve(masterChef._address, 10000000)
+    .send({from: accounts[0]});
+
+
+  console.log(`MCTO on account before deposit: ${await MCTO.methods.balanceOf(accounts[0]).call()}`)
+  
+  let pendingsPool0 = await masterChef.methods.pendingSushi(0, accounts[0]).call()
+  console.log(`Pending rewards on pool USDC/ETH: ${pendingsPool0}`)
+  
+  console.log('deposit 10 LP Token')
+  await masterChef.methods
+    .deposit(0, 10) 
+    .send({from: accounts[0]});
+
+  pendingsPool0 = await masterChef.methods.pendingSushi(0, accounts[0]).call()
+  console.log(`Pending rewards on pool USDC/ETH: ${pendingsPool0}`)
+  
+  console.log(`MCTO on account after deposit: ${await MCTO.methods.balanceOf(accounts[0]).call()}`)
+
+  
+
+  let info = await masterChef.methods.userInfo(0, accounts[0]).call()
+  console.log(`userInfo pool 0: ${info.amount}`)
 };
 
 module.exports = () => {

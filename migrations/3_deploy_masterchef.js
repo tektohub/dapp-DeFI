@@ -18,11 +18,15 @@ module.exports = async function(deployer, network, addresses) {
     0,
     1000
   )
-
+  const masterchef = await Masterchef.deployed()
   await deployer.deploy(MCTOBar, MCTO.address)
-
+  
   const bar = await MCTOBar.deployed()
+  
+  await MCTO.setAdmin(masterchef.address)
+  await MCTO.setAdmin(bar.address)
 
+  
   // await MCTO.approve(bar.address, 1000)
 
   // console.log('############# STAKING MCTO INTO MCTOBAR  ###############')
@@ -39,7 +43,6 @@ module.exports = async function(deployer, network, addresses) {
   // console.log(`MCTO into bar: ${await MCTO.balanceOf(bar.address)}`)
   // console.log(`account MCTO balance: ${await MCTO.balanceOf(addresses[0])}`)
   // console.log(`account stkMCTO balance: ${await bar.balanceOf(addresses[0])}`)
-  await MCTO.setAdmin(bar.address)
 
   
   

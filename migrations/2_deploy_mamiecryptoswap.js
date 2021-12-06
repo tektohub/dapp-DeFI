@@ -29,7 +29,7 @@ module.exports = async function (deployer, network, addresses) {
     factoryContract.address,
     WETHCContract.address
   );
-  routerContract = await MamieCryptoV2Router02.deployed();
+  // routerContract = await MamieCryptoV2Router02.deployed();
 
   // await factoryContract.createPair(fUSDCContract.address, WETHCContract.address);
   // usdcPairAddress = await factoryContract.getPair(fUSDCContract.address, WETHCContract.address);
