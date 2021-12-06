@@ -23,7 +23,7 @@ module.exports = async function(deployer) {
 
   const bar = await MCTOBar.deployed()
 
-  MCTO.approve(bar.address, 1000)
+  await MCTO.approve(bar.address, 1000)
   await bar.enter(50)
 
 };
