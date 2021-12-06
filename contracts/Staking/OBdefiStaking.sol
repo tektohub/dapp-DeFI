@@ -84,11 +84,11 @@ contract OBdefiStaking {
     /// @notice Withdraw an amount of a specific ERC20 token
     /// @param tokenAddress address of the staked token
     /// @param amount amount to be withdrawn
-    function withdrawToken (address tokenAddress, uint amount) public {
+    function unstakeToken (address tokenAddress, uint amount) public {
         require(amount > 0, "You cannot withdraw 0 token");
 
         int arrayIndex = int(tokenMap[tokenAddress]) - 1;
-        require(arrayIndex > -1, "Seems you never staked the given token on this contract");
+        require(arrayIndex > -1, "No staked token on this contract");
         
         Token storage currentToken = tokens[uint(arrayIndex)];
         require(currentToken.stakedAmount >= amount, "Not enough staked tokens.");
