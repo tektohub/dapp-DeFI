@@ -1,7 +1,7 @@
 const Web3 = require('web3');
-const MasterChefContract = require('../build/contracts/MasterChef.json')
-const MCTOContract = require('../build/contracts/MCTO.json')
-const MamieCryptoPairContract = require ('../build/contracts/MamieCryptoV2Pair.json')
+const MasterChefContract = artifacts.require('MasterChef')
+const MCTOContract = artifacts.require('MCTO')
+const MamieCryptoPairContract = artifacts.require ('MamieCryptoV2Pair')
 // import MasterChefContract from "../build/contracts/MasterChef.json";
 // import MCTOContract from "../build/contracts/MCTO.json";
 const HDWalletProvider = require("@truffle/hdwallet-provider");
@@ -19,7 +19,6 @@ fs.readFile('pairsAddresses.json',
     LP_fUSDC_WETH_address = jsonParsed.LP_fUSDC_WETH_address;
     LP_fUSDT_WETH_address = jsonParsed.LP_fUSDT_WETH_address;
     LP_fDAI_WETH_address = jsonParsed.LP_fDAI_WETH_address;
-    console.log(LP_fDAI_WETH_address)
 });
 
 

@@ -1,8 +1,8 @@
 const { BN, constants } = require("@openzeppelin/test-helpers");
 
-var Masterchef = artifacts.require("./MasterChef/MasterChef.sol");
-var MCTOToken = artifacts.require("./MasterChef/MCTO.sol");
-var MCTOBar = artifacts.require("./MasterChef/MCTOBar.sol");
+var Masterchef = artifacts.require("MasterChef");
+var MCTOToken = artifacts.require("MCTO");
+var MCTOBar = artifacts.require("MCTOBar");
 
 const oneMillion = new BN(web3.utils.toWei("1000000", "ether"));
 

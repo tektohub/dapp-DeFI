@@ -1,6 +1,6 @@
 const Web3 = require('web3');
-const MCTOBarContract = require('../build/contracts/MCTOBar.json')
-const MCTOContract = require('../build/contracts/MCTO.json')
+const MCTOBarContract = artifacts.require('MCTOBar')
+const MCTOContract = artifacts.require('MCTO')
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 
