@@ -3,6 +3,8 @@ import getWeb3 from "./getWeb3";
 import {
   BrowserRouter as Router,
   Routes,
+  // Switch is not used 
+  // eslint-disable-next-line
   Switch,
   Route,
   Link
@@ -42,7 +44,7 @@ function App() {
       } catch (error) {
         // Catch any errors for any of the above operations.
         alert(
-          `Failed to load web3, accounts, or contract. Check console for details.`,
+          `Failed to load web3, accounts, or contract. Check console for details. Try to connect a wallet`,
         );
         console.error(error);
       }

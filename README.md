@@ -19,13 +19,15 @@ Then go to script folder with `cd script/` and run the script to simulate workfl
 
 - **1** : Go to client/ folder (from project root: cd client) and run `npm install` (install dependencies)
 
-- **2** : Then `npm start` to run your local instance - you will see : running server ...
+- **2** : Wallet : Go to your default Browser and connect a wallet (example: Metamask).
 
-- **3** : your default browser will start with a new window or tab. 
+- **3** : `npm start` to run your local instance - you will see : running server ...
 
-- !!! If you encounter any errors related to webpack versions, you can do the following:
-    >> rename file env-client-sample as .env 
-    >> stop server with <Ctrl ^C> and run 'npm start' again
+- **4** : Browser: your default browser will start with a new window or tab. 
+
+  :warning: =>> If you encounter any errors related to webpack versions, you can do the following:
+    - ->> rename file env-client-sample as ".env".
+    - ->> stop server with <Ctrl ^C> and run 'npm start' again. 
 
 <p>&nbsp;</p>
 
@@ -42,9 +44,10 @@ All contracts have been migrated to Solidity 0.8.10
 | UniswapV2Pair     | MamieCryptoV2Pair     |
 | UniswapV2Router02 | MamieCryptoV2Router02 |
 
-### **Sushi masterchef**
+### **Sushi masterchef** : sushi : 
 
 Localted in folder `contracts/MasterChef`, you will find `Masterchef.sol` and `MCTO.sol`
+Forked from: [*`MasterChef.sol`*](https://github.com/sushiswap/sushiswap/blob/canary/contracts/MasterChef.sol)
 
 You can stake in it any LP tokens from Uniswap liquidity pools and you will earn MCTO tokens.
 
