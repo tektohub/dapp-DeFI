@@ -26,7 +26,9 @@ function App() {
         const accounts = await web3.eth.getAccounts();
 
         // Get the contract instance.
-        const networkId = await web3.eth.net.getId();
+
+        //const networkId = await web3.eth.net.getId(); // obo - networkId not used - comment it 
+        
         // const deployedNetwork = MamieCryptoRouter.networks[networkId];
         // const instance = new web3.eth.Contract(
         //   MamieCryptoRouter.abi,
