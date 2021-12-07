@@ -20,7 +20,7 @@ function Swap({ state }) {
     }, [state])
 
     return (
-        instance && <div>STAKING PAGE: {instance._address}</div>
+        instance && <div>Swap PAGE: {instance._address}</div>
     )
 
 }
