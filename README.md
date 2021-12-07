@@ -17,13 +17,13 @@ Then go to script folder with `cd script/` and run the script to simulate workfl
 
 ## Web UI
 
-### 1- Go to client/ folder (from project root: cd client) and run `npm install` (install dependencies)
+- **1** : Go to client/ folder (from project root: cd client) and run `npm install` (install dependencies)
 
-### 2- Then `npm start` to run your local instance - you will see : running server ...
+- **2** : Then `npm start` to run your local instance - you will see : running server ...
 
-### 3- your default browser will start with a new window or tab. 
+- **3** : your default browser will start with a new window or tab. 
 
-!!! If you encounter any errors related to webpack versions, you can do the following:
+- !!! If you encounter any errors related to webpack versions, you can do the following:
     >> rename file env-client-sample as .env 
     >> stop server with <Ctrl ^C> and run 'npm start' again
 
