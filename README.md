@@ -6,7 +6,7 @@ In the root folder, run `npm install`
 
 Open a console and start your `ganache-cli -b 1` instance
 
-Open a new console and migrate contracts with `truffle migrate`
+Open a new console and migrate contracts with `truffle migrate` or `truffle migrate --reset`
 
 Then go to script folder with `cd script/` and run the script to simulate workflow, in order :
 
@@ -17,9 +17,15 @@ Then go to script folder with `cd script/` and run the script to simulate workfl
 
 ## Web UI
 
-Go to client/src folder and run `npm install`
+### 1- Go to client/ folder (from project root: cd client) and run `npm install` (install dependencies)
 
-Then `npm start` to run your local instance
+### 2- Then `npm start` to run your local instance - you will see : running server ...
+
+### 3- your default browser will start with a new window or tab. 
+
+!!! If you encounter any errors related to webpack versions, you can do the following:
+    >> rename file env-client-sample as .env 
+    >> stop server with <Ctrl ^C> and run 'npm start' again
 
 <p>&nbsp;</p>
 
