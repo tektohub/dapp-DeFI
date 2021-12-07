@@ -3,6 +3,8 @@ import getWeb3 from "./getWeb3";
 import {
   BrowserRouter as Router,
   Routes,
+  // Switch is not used 
+  // eslint-disable-next-line
   Switch,
   Route,
   Link
@@ -26,7 +28,9 @@ function App() {
         const accounts = await web3.eth.getAccounts();
 
         // Get the contract instance.
-        const networkId = await web3.eth.net.getId();
+
+        //const networkId = await web3.eth.net.getId(); // obo - networkId not used - comment it 
+        
         // const deployedNetwork = MamieCryptoRouter.networks[networkId];
         // const instance = new web3.eth.Contract(
         //   MamieCryptoRouter.abi,
@@ -40,7 +44,7 @@ function App() {
       } catch (error) {
         // Catch any errors for any of the above operations.
         alert(
-          `Failed to load web3, accounts, or contract. Check console for details.`,
+          `Failed to load web3, accounts, or contract. Check console for details. Try to connect a wallet`,
         );
         console.error(error);
       }
