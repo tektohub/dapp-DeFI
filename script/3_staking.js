@@ -13,7 +13,6 @@ const getWeb3 = () => {
 };
 
 
-
 const script = async () => {
   const web3 = getWeb3();
   const networkId = await web3.eth.net.getId();
