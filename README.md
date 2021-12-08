@@ -1,6 +1,6 @@
 # Defi Alyra - Uniswap Fork + Masterchef fork + Stacking
 
-![alt TEST defi](01_RTeam.jpg)
+![alt Red_Team](client/public/01_RTeam.jpg)
 
 
 ## Install instructions
