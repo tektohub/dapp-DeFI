@@ -8,6 +8,8 @@ function Farm({ state, pool, index, masterchef }) {
   const depositInput = useRef();
   const [lpInstance, setLpInstance] = useState(null);
   const [balance, setBalance] = useState(0);
+  const [stacked, setStacked] = useState(0);
+  const [pendings, setPendings] = useState(0)
 
   useEffect(() => {
     (async () => {
@@ -23,10 +25,16 @@ function Farm({ state, pool, index, masterchef }) {
           .allowance(state.accounts[0], masterchef._address)
           .call();
         setIsApproved(allowance > 0);
-        let bal = await lpInstance.methods
-          .balanceOf(state.accounts[0])
+        let bal = await lpInstance.methods.balanceOf(state.accounts[0]).call();
+        setBalance(bal);
+        let stkd = await masterchef.methods
+          .userInfo(index, state.accounts[0])
           .call();
-        setBalance(bal)
+        setStacked(stkd.amount)
+        let pdgs = await masterchef.methods
+          .pendingSushi(index, state.accounts[0])
+          .call();
+        setPendings(pdgs)
       }
     })();
   }, [lpInstance]);
@@ -54,17 +62,30 @@ function Farm({ state, pool, index, masterchef }) {
       .send({ from: state.accounts[0] });
   };
 
+  const handleWithdraw = async () => {
+      await masterchef.methods
+        .withdraw(index, depositInput.current.value)
+        .send({from: state.accounts[0]})
+  }
+
   return (
     <div>
-      {pool.lpToken} - {pool.allocPoint} - your balance: {balance / 1e18}
+      <hr />
+      LPToken address: {pool.lpToken} <br />
+      Allocation: {pool.allocPoint} <br />
+      Balance: {balance / 1e18}
       {!isApproved ? (
         <button onClick={handleApprove}>approve</button>
       ) : (
         <div>
           <input type="text" ref={depositInput}></input>
           <button onClick={handleDeposit}>deposit</button>
+          <button onClick={handleWithdraw}>Withdraw</button>
         </div>
-      )}
+      )}{" "}
+      Total stacked: {stacked} <br/>
+      Pending MCTO: {pendings}
+      
     </div>
   );
 }
